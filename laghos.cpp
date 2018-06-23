@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
    problem = (Problem) intProblem;
 
    if (strlen(occa_config)) {
-     occa::json config = occa::json::loads(occa_config);
+     occa::json config = occa::json::parse(occa_config);
      if (!config.has("devices")) {
        std::cout << "Config file \"" << occa_config << "\" does not have 'devices'.\n";
        return 1;
