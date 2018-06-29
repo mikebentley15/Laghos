@@ -29,7 +29,7 @@ timing_repeats = 3
 # For now, only the first host is supported, all others are ignored
 [[hosts]]
 
-name = '2f7c603b809c'
+name = 'laghos-docker-ubuntu16.04'
 flit_path = '/home/labuser/FLiT/scripts/flitcli/flit.py'
 config_dir = '/home/labuser/FLiT/scripts/flitcli/config'
 
@@ -37,16 +37,16 @@ config_dir = '/home/labuser/FLiT/scripts/flitcli/config'
 [hosts.dev_build]
 # compiler_name must be found in [[hosts.compilers]] list under name attribute
 # but the optimization level and switches do not need to be in the compiler list
-compiler_name = 'g++'
+compiler_name = 'nvcc'
 optimization_level = '-O2'
-switches = '-funsafe-math-optimizations'
+switches = '-Xcompiler -funsafe-math-optimizations'
 
 # The ground truth compilation to use in analysis, for "make gt"
 [hosts.ground_truth]
 # compiler_name must be found in [[hosts.compilers]] list under name attribute
 # but the optimization level and switches do not need to be in the compiler list
-compiler_name = 'g++'
-optimization_level = '-O0'
+compiler_name = 'nvcc'
+optimization_level = '-O2'
 switches = ''
 
   # This host's list of compilers.
@@ -57,6 +57,7 @@ switches = ''
   # binary can be an absolute path, relative path, or binary name (found in
   # PATH).  If you want to specify a compiler in the same directory as this
   # config file, prepend with a "./" (e.g. "./my-compiler")
-  binary = 'g++'
-  name = 'g++'
+  binary = 'nvcc'
+  name = 'nvcc'
+  type = 'cuda'
 
