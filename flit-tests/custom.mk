@@ -53,8 +53,10 @@ CC_REQUIRED    += -I$(CUDA_DIR)/samples/common/inc
 CC_REQUIRED    += -I$(MFEM_DIR)
 CC_REQUIRED    += -I$(MFEM_DIR)/../hypre-2.10.0b/src/hypre/include
 CC_REQUIRED    += -I$(MPI_HOME)/include
-CC_REQUIRED    += -I$(RAJA_DIR)/include
+# Note: The local cub directory needs to be included before raja because some
+#       files shadow the same header files found in raja.
 CC_REQUIRED    += -I../cub
+CC_REQUIRED    += -I$(RAJA_DIR)/include
 CC_REQUIRED    += $(NV_ARCH)
 CC_REQUIRED    += -Xcompiler -fopenmp
 CC_REQUIRED    += -m64
