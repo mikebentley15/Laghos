@@ -31,23 +31,23 @@ protected:
   using flit::TestBase<T>::id;
 };
 
-int problem = 1;
+int problem = 1;            // --problem=1
 
 template <>
 flit::Variant LaghosTest<double>::run_impl(const std::vector<double> &ti) {
    // Parse command-line options.
    const char *basename = "results/Laghos";
-   const char *mesh_file = "../data/square01_quad.mesh";
-   int rs_levels = 7;
-   int rp_levels = 0;
-   int order_v = 3;
-   int order_e = 2;
+   const char *mesh_file = "../data/square01_quad.mesh"; // --mesh=...
+   int rs_levels = 6;       // --refine-serial=6
+   int rp_levels = 0;       // --refine-parallel=0
+   int order_v = 3;         // --order-kinematic=3
+   int order_e = 2;         // --order-thermo=2
    int ode_solver_type = 4;
    double t_final = 0.5;
    double cfl = 0.5;
    double cg_tol = 1e-8;
    int cg_max_iter = 300;
-   int max_tsteps = 1;
+   int max_tsteps = 1;      // --max-steps=1
    bool p_assembly = true;
    bool visualization = false;
    int vis_steps = 5;
@@ -55,7 +55,7 @@ flit::Variant LaghosTest<double>::run_impl(const std::vector<double> &ti) {
    bool gfprint = false;
    bool dot = false;
    bool mult = false;
-   bool lambda = false; // lambda test on one kernel only
+   bool lambda = false;
    bool cuda = false;
    bool dcg = false;
    bool uvm = false;
