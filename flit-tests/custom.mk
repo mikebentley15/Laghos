@@ -71,11 +71,16 @@ LD_REQUIRED    += -L$(MFEM_DIR) -lmfem
 LD_REQUIRED    += -L$(MFEM_DIR)/../hypre-2.10.0b/src/hypre/lib -lHYPRE
 LD_REQUIRED    += -L$(MFEM_DIR)/../metis-4.0 -lmetis
 LD_REQUIRED    += -lrt
-LD_REQUIRED    += -fopenmp
 LD_REQUIRED    += $(RAJA_DIR)/lib/libRAJA.a
 LD_REQUIRED    += -Wl,-rpath -Wl,$(CUDA_DIR)/lib64
 LD_REQUIRED    += -L$(CUDA_DIR)/lib64 -lcuda -lcudart -lcudadevrt -lnvToolsExt
 LD_REQUIRED    += -ldl
+LD_REQUIRED    += $(shell mpicxx --showme:link)
+
+# replace -Wl,... with -Xlinker=... for nvcc's way of doing things (ugh)
+COMMA          := ,
+LD_REQUIRED    := $(patsubst -Wl$(COMMA)%,-Xlinker=%,$(LD_REQUIRED))
+LD_REQUIRED    := $(patsubst -pthread,-Xcompiler=-pthread,$(LD_REQUIRED))
 
 # compiler and linker flags respectively - specifically for a dev build
 # - DEV_CFLAGS:   non-recorded compiler flags (such as includes)
