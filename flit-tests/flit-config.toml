@@ -37,15 +37,15 @@ config_dir = '/home/labuser/FLiT/scripts/flitcli/config'
 [hosts.dev_build]
 # compiler_name must be found in [[hosts.compilers]] list under name attribute
 # but the optimization level and switches do not need to be in the compiler list
-compiler_name = 'nvcc'
+compiler_name = 'g++'
 optimization_level = '-O2'
-switches = '-Xcompiler -funsafe-math-optimizations'
+switches = '-funsafe-math-optimizations'
 
 # The ground truth compilation to use in analysis, for "make gt"
 [hosts.ground_truth]
 # compiler_name must be found in [[hosts.compilers]] list under name attribute
 # but the optimization level and switches do not need to be in the compiler list
-compiler_name = 'nvcc'
+compiler_name = 'g++'
 optimization_level = '-O2'
 switches = ''
 
@@ -57,7 +57,7 @@ switches = ''
   # binary can be an absolute path, relative path, or binary name (found in
   # PATH).  If you want to specify a compiler in the same directory as this
   # config file, prepend with a "./" (e.g. "./my-compiler")
-  binary = 'nvcc'
-  name = 'nvcc'
-  type = 'cuda'
+  binary = 'g++'
+  name = 'g++'
+  type = 'gcc'
 

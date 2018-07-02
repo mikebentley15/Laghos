@@ -37,17 +37,14 @@ CUDA_FILES     += $(wildcard $(RAJA)/linalg/*.cu)
 SOURCE         += $(wildcard ../*.cpp)
 SOURCE         += $(KERNEL_FILES)
 SOURCE         += $(RAJA_FILES)
+SOURCE         := $(filter-out ../laghos.cpp,$(SOURCE))
 
 # required compiler flags
 # for example, include directories
 #   CC_REQUIRED += -I<path>
 # or defines
 #   CC_REQUIRED += -DDEBUG_ENABLED=1
-CC_REQUIRED    += --expt-extended-lambda # for cuda
-CC_REQUIRED    += --restrict
-CC_REQUIRED    += -DUSE_CUDA
 CC_REQUIRED    += -D__LAMBDA__
-CC_REQUIRED    += -D__RAJA__
 CC_REQUIRED    += -D__TEMPLATES__
 CC_REQUIRED    += -I$(CUDA_DIR)/samples/common/inc
 CC_REQUIRED    += -I$(MFEM_DIR)
@@ -56,11 +53,10 @@ CC_REQUIRED    += -I$(MPI_HOME)/include
 # Note: The local cub directory needs to be included before raja because some
 #       files shadow the same header files found in raja.
 CC_REQUIRED    += -I../cub
+CC_REQUIRED    += -I..
 CC_REQUIRED    += -I$(RAJA_DIR)/include
-CC_REQUIRED    += $(NV_ARCH)
-CC_REQUIRED    += -Xcompiler -fopenmp
+CC_REQUIRED    += -fopenmp
 CC_REQUIRED    += -m64
-CC_REQUIRED    += -x=cu
 
 # required linker flags
 # for example, link libraries
@@ -76,11 +72,6 @@ LD_REQUIRED    += -Wl,-rpath -Wl,$(CUDA_DIR)/lib64
 LD_REQUIRED    += -L$(CUDA_DIR)/lib64 -lcuda -lcudart -lcudadevrt -lnvToolsExt
 LD_REQUIRED    += -ldl
 LD_REQUIRED    += $(shell mpicxx --showme:link)
-
-# replace -Wl,... with -Xlinker=... for nvcc's way of doing things (ugh)
-COMMA          := ,
-LD_REQUIRED    := $(patsubst -Wl$(COMMA)%,-Xlinker=%,$(LD_REQUIRED))
-LD_REQUIRED    := $(patsubst -pthread,-Xcompiler=-pthread,$(LD_REQUIRED))
 
 # compiler and linker flags respectively - specifically for a dev build
 # - DEV_CFLAGS:   non-recorded compiler flags (such as includes)
