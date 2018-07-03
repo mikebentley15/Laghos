@@ -21,6 +21,25 @@ public:
   virtual size_t getInputsPerRun() override { return 0; }
   virtual std::vector<T> getDefaultInput() override { return {}; }
 
+  virtual long double compare(long double ground_truth,
+                              long double test_results) const override
+  {
+    // To have 3 digits of decimal digits to be equal, that means that the
+    // relative error is less than 1/1000.  So for relative error greater than
+    // or equal to 1/1000, we return the absolute error, else return 0. 
+    int common_decimal_digits = 6;
+    double threshold = std::pow(.1, common_decimal_digits);
+    double absolute_error = std::abs(test_results - ground_truth);
+    double relative_error = std::abs(absolute_error / ground_truth);
+    std::cout << id << ": compare():" << std::endl;
+    std::cout << id << ":   gt:        " << ground_truth << std::endl;
+    std::cout << id << ":   test res:  " << test_results << std::endl;
+    std::cout << id << ":   Threshold: " << threshold << std::endl;
+    std::cout << id << ":   abs error: " << absolute_error << std::endl;
+    std::cout << id << ":   rel error: " << relative_error << std::endl;
+    return relative_error >= threshold ? absolute_error : 0.0;
+  }
+
 protected:
   virtual flit::Variant run_impl(const std::vector<T> &ti) override {
     FLIT_UNUSED(ti);
